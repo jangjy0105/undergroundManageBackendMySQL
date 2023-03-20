@@ -1,10 +1,8 @@
 const { Router, query } = require('express');
 const { Tags } = require('../data/tags');
 const { Movies } = require('../data/movies');
-const { getQuery } = require('../functions/getQuery');
 const { getListLength } = require('../functions/getListLength');
 const { getList } = require('../functions/getList');
-// const { idToData } = require('../functions/idToData');
 
 const router = Router();
 
