@@ -4,7 +4,6 @@ const { Movies } = require('../data/movies');
 const { Tags } = require('../data/tags');
 const { getList } = require('../functions/getList');
 const { getListLength } = require('../functions/getListLength');
-const { getQuery } = require('../functions/getQuery');
 
 const router = Router();
 
