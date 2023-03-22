@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const { Managers } = require('../data/managers');
 const cookieParser = require('cookie-parser');
+const { auth } = require('../functions/auth');
 
 const router = Router();
 
@@ -38,6 +39,18 @@ router.post('/login', (req, res) => {
     
   })
 
+})
+
+
+router.post('/auth', (req, res) => {
+  let token = req.body;
+
+  Managers.findByToken(token, (err, manager) => {
+    if(err) throw err;
+    if(!manager) return res.json({ isAuth: false, error: false });
+
+    res.send({ isAuth: true, error: false });
+  })
 })
 
 // router.post('/getLength', (req, res) => {

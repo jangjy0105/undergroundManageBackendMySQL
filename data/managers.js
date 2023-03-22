@@ -41,8 +41,19 @@ managerSchema.methods.generateToken = function(cb) {
 
   manager.token = token;
   manager.save(function(err, manager) {
-    if(err) return cb(err)
-    cb(null, manager)
+    if(err) return cb(err);
+    cb(null, manager);
+  })
+}
+
+managerSchema.statics.findByToken = function(token, cb) {
+  var manager = this;
+
+  jwt.verify(token, 'secretToken', function(err, decoded) {
+    manager.findOne({"_id": decoded, "token": token}, (err, manager) => {
+      if(err) return cb(err);
+      cb(null, manager);
+    })
   })
 }
 
