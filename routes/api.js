@@ -14,7 +14,7 @@ router.use('/tag', tag)
 const notice = require('./notice');
 router.use('/notice', notice)
 
-const manager = require('./manager');
-router.use('/manager', manager)
+const admin = require('./admin');
+router.use('/admin', admin)
 
 module.exports = router;

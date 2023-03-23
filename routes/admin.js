@@ -1,7 +1,7 @@
 const { Router } = require('express');
-const { Managers } = require('../data/managers');
+const { Admins } = require('../data/admins');
 const cookieParser = require('cookie-parser');
-const { auth } = require('../functions/auth');
+const jwt = require('jsonwebtoken');
 
 const router = Router();
 
@@ -10,30 +10,30 @@ router.use(cookieParser());
 router.post('/signup', (req, res) => {
   const data = req.body;
   console.log(data);
-  const saveManager = new Managers(data);
-  saveManager.save();
+  const saveAdmin = new Admins(data);
+  saveAdmin.save();
 })
 
 router.post('/login', (req, res) => {
-  Managers.findOne({ id: req.body.id }, (err, manager) => {
-    if(!manager) {
+  Admins.findOne({ id: req.body.id }, (err, admin) => {
+    if(!admin) {
       console.log("잘못된 아이디");
       return res.json({ loginSuccess: false, messege: "잘못된 아이디입니다." })
     }
     
-    manager.comparePassword(req.body.password, (err, isMatch) => {
+    admin.comparePassword(req.body.password, (err, isMatch) => {
       if(!isMatch) {
         console.log("잘못된 비밀번호");
         return res.json({ loginSuccess: false, messege: "비밀번호가 틀렸습니다." })
       }
       
-      manager.generateToken((err, manager) => {
+      admin.generateToken((err, admin) => {
         console.log("로그인 성공!")
         if(err) return res.status(400).send(err);
 
-          res.cookie("x_auth", manager.token)
+          res.cookie("x_auth", admin.token)
           .status(200)
-          .json({ loginSuccess: true, managerId: manager._id })
+          .json({ loginSuccess: true, admin: admin })
       })
     })
     
@@ -43,13 +43,15 @@ router.post('/login', (req, res) => {
 
 
 router.post('/auth', (req, res) => {
-  let token = req.body;
+  let token = req.body.token;
 
-  Managers.findByToken(token, (err, manager) => {
+  console.log(token)
+
+  Admins.findByToken(token, (err, admin) => {
     if(err) throw err;
-    if(!manager) return res.json({ isAuth: false, error: false });
+    if(!admin) return res.json({ isAuth: false });
 
-    res.send({ isAuth: true, error: false });
+    res.send({ isAuth: true, admin: admin });
   })
 })
 
