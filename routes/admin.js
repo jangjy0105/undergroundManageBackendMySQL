@@ -18,13 +18,13 @@ router.post('/login', (req, res) => {
   Admins.findOne({ id: req.body.id }, (err, admin) => {
     if(!admin) {
       console.log("잘못된 아이디");
-      return res.json({ loginSuccess: false, messege: "잘못된 아이디입니다." })
+      return res.json({ loginSuccess: false, messege: "등록되지 않은 아이디입니다." })
     }
     
     admin.comparePassword(req.body.password, (err, isMatch) => {
       if(!isMatch) {
         console.log("잘못된 비밀번호");
-        return res.json({ loginSuccess: false, messege: "비밀번호가 틀렸습니다." })
+        return res.json({ loginSuccess: false, messege: "잘못된 비밀번호입니다." })
       }
       
       admin.generateToken((err, admin) => {
@@ -33,7 +33,7 @@ router.post('/login', (req, res) => {
 
           res.cookie("x_auth", admin.token)
           .status(200)
-          .json({ loginSuccess: true, admin: admin })
+          .json({ loginSuccess: true, name: admin.name })
       })
     })
     
@@ -44,8 +44,6 @@ router.post('/login', (req, res) => {
 
 router.post('/auth', (req, res) => {
   let token = req.body.token;
-
-  console.log(token)
 
   Admins.findByToken(token, (err, admin) => {
     if(err) throw err;
