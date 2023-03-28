@@ -1,8 +1,8 @@
 const { getQuery } = require("./getQuery");
 
-exports.getListLength = function(schema, queryData, res, objFields, objFieldDatas) {
-  if(queryData) {
-    const query = getQuery(queryData, objFields, objFieldDatas);
+exports.getTotalLength = function(schema, req, res, objFields, objFieldDatas) {
+  if(req.queryData) {
+    const query = getQuery(req.queryData, req.searchOption, objFields, objFieldDatas);
     schema.count({$and: query}, (error, count) => {
       if(error) throw error;
       res.json(count);

@@ -11,7 +11,7 @@ exports.getList = async function(schema, req, objFields, objFieldDatas, sortFiel
   var data;
 
   if(queryData) {
-    const query = getQuery(queryData, objFields, objFieldDatas); 
+    const query = getQuery(queryData, req.searchOption, objFields, objFieldDatas); 
     data = await schema.find({$and: query}).sort(sortQuery).skip(skipNum).limit(limitNum).exec();
   }
 

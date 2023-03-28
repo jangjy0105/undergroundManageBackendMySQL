@@ -3,7 +3,7 @@ const { Router, query } = require('express');
 const { Movies } = require('../data/movies');
 const { Tags } = require('../data/tags');
 const { getList } = require('../functions/getList');
-const { getListLength } = require('../functions/getListLength');
+const { getTotalLength } = require('../functions/getTotalLength');
 
 const router = Router();
 
@@ -12,7 +12,7 @@ router.post('/getLength', (req, res) => {
   const objFields = ['tags'];
   const objFieldDatas = ['tagName'];
 
-  getListLength(Movies, req.body.queryData, res, objFields, objFieldDatas);
+  getTotalLength(Movies, req.body, res, objFields, objFieldDatas);
 
 })
 
@@ -46,6 +46,18 @@ router.post('/getMovieList', async(req, res) => {
   const data = await getList(Movies, req.body, objFields, objFieldDatas, 'title');
 
   res.send(data);
+})
+
+router.post('/delete', (req, res) => {
+  console.log(req.body+'삭제');
+})
+
+router.post('/open', (req, res) => {
+  console.log(req.body+'공개');
+})
+
+router.post('/close', (req, res) => {
+  console.log(req.body+'미공개');
 })
 
 

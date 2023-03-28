@@ -1,12 +1,12 @@
 const { Router } = require('express');
 const { Notices } = require('../data/notices');
 const { getList } = require('../functions/getList');
-const { getListLength } = require('../functions/getListLength');
+const { getTotalLength } = require('../functions/getTotalLength');
 
 const router = Router();
 
 router.post('/getLength', (req, res) => {
-  getListLength(Notices, req.body.queryData, res, [], []);
+  getTotalLength(Notices, req.body, res, [], []);
 })
 
 router.post('/upload', (req, res) => {

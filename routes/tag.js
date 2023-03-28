@@ -1,7 +1,7 @@
 const { Router, query } = require('express');
 const { Tags } = require('../data/tags');
 const { Movies } = require('../data/movies');
-const { getListLength } = require('../functions/getListLength');
+const { getTotalLength } = require('../functions/getTotalLength');
 const { getList } = require('../functions/getList');
 
 const router = Router();
@@ -20,7 +20,7 @@ router.post('/getLength', (req, res) => {
   const objFields = ['movies'];
   const objFieldDatas = ['movieTitle'];
 
-  getListLength(Tags, req.body.queryData, res, objFields, objFieldDatas);
+  getTotalLength(Tags, req.body, res, objFields, objFieldDatas);
   
 })
 
