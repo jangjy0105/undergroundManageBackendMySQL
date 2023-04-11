@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
-// const { Tags } = require('./tags');
+const { Tags } = require('./tags');
 
-const movieSchema = new mongoose.Schema({
+const copyMovieSchema = new mongoose.Schema({
   title: {type: String},
   summary: {type: String},
   rating: {type: String},
@@ -21,17 +21,14 @@ const movieSchema = new mongoose.Schema({
   tags: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "tags"
+      ref: Tags
     }
   ],
   video: {type: String},
   poster: {type: String},
   subtitle: {type: String},
   specialNote: {type: String},
-  date: {
-    type: Date,
-    default: Date.now
-  },
+  date: {type: Date},
   view: {type: Number},
   comments: [
     {type: String}
@@ -46,6 +43,6 @@ const movieSchema = new mongoose.Schema({
   avgScore:{type: Number}
 })
 
-const Movies = mongoose.model('movies', movieSchema);
+const CopyMovies = mongoose.model('copyMovies', copyMovieSchema);
 
-module.exports = {Movies}
+module.exports = {CopyMovies}

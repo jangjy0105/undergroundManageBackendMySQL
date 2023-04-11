@@ -2,24 +2,24 @@ const { Router } = require('express');
 const { Notices } = require('../data/notices');
 const { getList } = require('../functions/getList');
 const { getTotalLength } = require('../functions/getTotalLength');
+const { upload } = require('../functions/upload');
 
 const router = Router();
 
 router.post('/getLength', (req, res) => {
-  getTotalLength(Notices, req.body, res, [], []);
+  const dateFields = ['date'];
+  getTotalLength(Notices, req.body, res, [], dateFields);
 })
 
 router.post('/upload', (req, res) => {
   const data = req.body;
-  data.date = new Date()
-  console.log(data);
-  const saveNotice = new Notices(data);
-  saveNotice.save();
+  upload(Notices, data);
 })
 
 router.post('/getNoticeList', async(req, res) => {
 
-  const data = await getList(Notices, req.body, [], [], 'noticeName'); 
+  const dateFields = ['date'];
+  const data = await getList(Notices, req.body, [], dateFields, 'noticeName'); 
   
   res.send(data);
 })

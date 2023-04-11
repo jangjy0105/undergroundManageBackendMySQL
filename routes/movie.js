@@ -1,55 +1,45 @@
-
 const { Router, query } = require('express');
 const { Movies } = require('../data/movies');
+const { DeletedMovies } = require('../data/deletedMovies');
 const { Tags } = require('../data/tags');
 const { getList } = require('../functions/getList');
 const { getTotalLength } = require('../functions/getTotalLength');
+const { deleteAndSave } = require('../functions/deleteAndSave');
+const { upload } = require('../functions/upload');
 
 const router = Router();
 
 router.post('/getLength', (req, res) => {  
   
-  const objFields = ['tags'];
-  const objFieldDatas = ['tagName'];
+  const populateOptions = [{schema: Tags, field: 'tags', data: 'tagName'}];
+  const dateFields = ['date'];
 
-  getTotalLength(Movies, req.body, res, objFields, objFieldDatas);
+  getTotalLength(Movies, req.body, res, populateOptions, dateFields);
 
 })
 
 router.post('/upload', async(req, res) => {
-  const movieData = req.body;
-  movieData.date = new Date()
-  
-  var saveMovie = new Movies(movieData);
-  const addTagMovie = saveMovie._id;
-  var tagIds = [];
-  
-  for (let i=0; i<saveMovie.tags.length; i++) {
-    let tagName = saveMovie.tags[i];
-    await Tags.updateOne({ tagName: tagName }, { $push: {movies: addTagMovie } });
-    let addTagId = await Tags.findOne({ tagName: tagName }).select("_id");
-    tagIds.push(addTagId._id);
-  }
-  saveMovie.tags = tagIds;
-  console.log(saveMovie);
+  let movieData = req.body;
 
-  await saveMovie.save();
+  let tags = await Tags.find({ tagName: {$in: movieData.tags} });
+  movieData.tags = tags;
 
-
+  upload(Movies, movieData, [Tags]);
 })
 
 router.post('/getMovieList', async(req, res) => {
   
-  const objFields = ['tags'];
-  const objFieldDatas = ['tagName'];
+  const populateOptions = [{schema: Tags, field: 'tags', data: 'tagName'}];
+  const dateFields = ['date'];
 
-  const data = await getList(Movies, req.body, objFields, objFieldDatas, 'title');
+  const data = await getList(Movies, req.body, populateOptions, dateFields, 'title');
 
   res.send(data);
 })
 
-router.post('/delete', (req, res) => {
-  console.log(req.body+'삭제');
+router.post('/delete', async (req, res) => {
+  
+  deleteAndSave(Movies, DeletedMovies, req.body, [Tags], [])
 })
 
 router.post('/open', (req, res) => {
@@ -59,6 +49,7 @@ router.post('/open', (req, res) => {
 router.post('/close', (req, res) => {
   console.log(req.body+'미공개');
 })
+
 
 
 module.exports = router;

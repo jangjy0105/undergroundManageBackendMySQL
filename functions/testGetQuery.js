@@ -1,4 +1,4 @@
-exports.getQuery = function(queryData, searchOption, populateFields, dateFields) {
+exports.testGetQuery = function(queryData, searchOption, populateFields, dateFields) {
   var query = [];
   var cnt = 0;
   

@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
-// const { Tags } = require('./tags');
 
-const movieSchema = new mongoose.Schema({
+const deletedMovieSchema = new mongoose.Schema({
   title: {type: String},
   summary: {type: String},
   rating: {type: String},
@@ -28,7 +27,8 @@ const movieSchema = new mongoose.Schema({
   poster: {type: String},
   subtitle: {type: String},
   specialNote: {type: String},
-  date: {
+  date: {type: Date},
+  deletedDate: {
     type: Date,
     default: Date.now
   },
@@ -46,6 +46,6 @@ const movieSchema = new mongoose.Schema({
   avgScore:{type: Number}
 })
 
-const Movies = mongoose.model('movies', movieSchema);
+const DeletedMovies = mongoose.model('deletedMovies', deletedMovieSchema);
 
-module.exports = {Movies}
+module.exports = {DeletedMovies}

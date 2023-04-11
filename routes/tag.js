@@ -1,43 +1,38 @@
 const { Router, query } = require('express');
 const { Tags } = require('../data/tags');
-const { Movies } = require('../data/movies');
 const { getTotalLength } = require('../functions/getTotalLength');
 const { getList } = require('../functions/getList');
+const { Movies } = require('../data/movies');
+const { upload } = require('../functions/upload');
 
 const router = Router();
 
 router.get('/getTag', async(req, res) => {
   const data = await Tags.find();
-  // var tagNames = [];
-  // data.map((tag) => {
-  //   tagNames.push(tag.tagName)
-  // })
+  
   res.send(data);
 })
 
 router.post('/getLength', (req, res) => {  
 
-  const objFields = ['movies'];
-  const objFieldDatas = ['movieTitle'];
-
-  getTotalLength(Tags, req.body, res, objFields, objFieldDatas);
+  const populateOptions = [{schema: Movies, field: 'movies', data: 'title'}];
+  const dateFields = ['date'];
+  
+  getTotalLength(Tags, req.body, res, populateOptions, dateFields);
   
 })
 
 router.post('/upload', (req, res) => {
   const data = req.body;
-  data.date = new Date()
-  console.log(data);
-  const saveTag = new Tags(data);
-  saveTag.save();
+  upload(Tags, data);
 })
 
 router.post('/getTagList', async(req, res) => {
 
-  const objFields = ['movies'];
-  const objFieldDatas = ['movieTitle'];
+  const populateOptions = [{schema: Movies, field: 'movies', data: 'title'}];
+  const dateFields = ['date'];
 
-  const data = await getList(Tags, req.body, objFields, objFieldDatas, 'tagName');
+  const data = await getList(Tags, req.body, populateOptions, dateFields, 'tagName');
   
   res.send(data);
 })

@@ -17,4 +17,7 @@ router.use('/notice', notice)
 const admin = require('./admin');
 router.use('/admin', admin)
 
+const deletedMovie = require('./deletedMovie');
+router.use('/deletedMovie', deletedMovie)
+
 module.exports = router;
