@@ -27,7 +27,7 @@ router.post('/upload', (req, res) => {
   upload(Tags, data);
 })
 
-router.post('/getTagList', async(req, res) => {
+router.post('/getList', async(req, res) => {
 
   const populateOptions = [{schema: Movies, field: 'movies', data: 'title'}];
   const dateFields = ['date'];
@@ -35,6 +35,15 @@ router.post('/getTagList', async(req, res) => {
   const data = await getList(Tags, req.body, populateOptions, dateFields, 'tagName');
   
   res.send(data);
+})
+
+router.post('/getDetail', async(req, res) => {
+
+  const data = await Tags.findById(req.body.id);
+
+  // console.log(req.body.id);
+
+  res.json(data);
 })
 
 // router.post('/tagid', async(req, res) => {

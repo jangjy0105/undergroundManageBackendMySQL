@@ -2,7 +2,7 @@ exports.getQuery = function(queryData, searchOption, populateFields, dateFields)
   var query = [];
   var cnt = 0;
   
-  console.log(queryData);
+  // console.log(queryData);
   if (searchOption === 'and') {
     Object.keys(queryData).map((keyName) => {
       if (queryData[keyName][0] && !dateFields.includes(keyName)){

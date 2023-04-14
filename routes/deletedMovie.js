@@ -17,7 +17,7 @@ router.post('/getLength', (req, res) => {
 
 })
 
-router.post('/getDeletedMovieList', async(req, res) => {
+router.post('/getList', async(req, res) => {
   
   const populateOptions = [{schema: Tags, field: 'tags', data: 'tagName'}];
   const dateFields = ['date', 'deletedDate'];

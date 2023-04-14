@@ -6,13 +6,15 @@ exports.getList = async function(schema, req, populateOptions, dateFields, sortF
   const limitNum = req.listNum;
   const queryData = req.queryData;
 
-  if(queryData && referenceSchams[0]) {
+  if(queryData && populateOptions[0]) {
     for (let populateOption of populateOptions) {
-      let regex = new RegExp(queryData[populateOption.field].join("|"), "i");
-      queryData[populateOption.field] = await populateOption.schema.find({ [populateOption.data]: regex });
+      if (queryData[populateOption.field][0]){
+        let regex = new RegExp(queryData[populateOption.field].join("|"), "i");
+        queryData[populateOption.field] = await populateOption.schema.find({ [populateOption.data]: regex });
+      }
     }
   }
-
+  
   const sortQuery = req.sortOption==='최신순' ?  { "date": -1 }: req.sortOption==='오래된순' ? { "date": 1 } : { [sortField]: 1 };
 
    let data;

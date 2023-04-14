@@ -27,7 +27,7 @@ router.post('/upload', async(req, res) => {
   upload(Movies, movieData, [Tags]);
 })
 
-router.post('/getMovieList', async(req, res) => {
+router.post('/getList', async(req, res) => {
   
   const populateOptions = [{schema: Tags, field: 'tags', data: 'tagName'}];
   const dateFields = ['date'];

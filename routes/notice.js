@@ -16,7 +16,7 @@ router.post('/upload', (req, res) => {
   upload(Notices, data);
 })
 
-router.post('/getNoticeList', async(req, res) => {
+router.post('/getList', async(req, res) => {
 
   const dateFields = ['date'];
   const data = await getList(Notices, req.body, [], dateFields, 'noticeName'); 

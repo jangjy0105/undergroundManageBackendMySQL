@@ -4,7 +4,7 @@ exports.getTotalLength = async function(schema, req, res, populateOptions, dateF
   
   var queryData = req.queryData;
 
-  if(queryData && populateSchams[0]) {
+  if(queryData && populateOptions[0]) {
     for (let populateOption of populateOptions) {
       queryData[populateOption.field] = await populateOption.schema.find({ [populateOption.data]: queryData[populateOption.field] });
     }
