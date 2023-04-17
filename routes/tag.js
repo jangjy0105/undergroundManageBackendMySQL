@@ -4,6 +4,7 @@ const { getTotalLength } = require('../functions/getTotalLength');
 const { getList } = require('../functions/getList');
 const { Movies } = require('../data/movies');
 const { upload } = require('../functions/upload');
+const { deleteData } = require('../functions/deleteData');
 
 const router = Router();
 
@@ -44,6 +45,11 @@ router.post('/getDetail', async(req, res) => {
   // console.log(req.body.id);
 
   res.json(data);
+})
+
+router.post('/delete', async(req, res) => {
+
+  deleteData(Tags, false, req.body, [Movies], []);
 })
 
 // router.post('/tagid', async(req, res) => {

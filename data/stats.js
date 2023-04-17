@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const statsSchma = new mongoose.Schema([{
+const statsSchema = new mongoose.Schema([{
   id: {
     type: String,
     maxLength: 10
@@ -17,6 +17,6 @@ const statsSchma = new mongoose.Schema([{
   ]
 }])
 
-const Stats = mongoose.model('stats', statsSchma)
+const Stats = mongoose.model('stats', statsSchema)
 
 module.exports = { Stats }

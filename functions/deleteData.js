@@ -1,6 +1,6 @@
 const { upload } = require("./upload");
 
-exports.deleteAndSave = async function(deleteSchema, saveSchema, deleteIds, deleteReferenceSchemas, saveReferenceSchemas) {
+exports.deleteData = async function(deleteSchema, saveSchema, deleteIds, deleteReferenceSchemas, saveReferenceSchemas) {
   for (const id of deleteIds) {
     let document = await deleteSchema.findById(id);
     let { _id, ...rest } = document.toObject();
@@ -16,7 +16,7 @@ exports.deleteAndSave = async function(deleteSchema, saveSchema, deleteIds, dele
     }
 
     // 문서의 복사본을 만들어 다른 컬렉션에 저장
-    upload(saveSchema, rest, saveReferenceSchemas);
+    if(saveSchema) upload(saveSchema, rest, saveReferenceSchemas);
 
     // 문서를 원래 컬렉션에서 삭제
     await deleteSchema.findByIdAndDelete(id);

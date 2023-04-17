@@ -3,7 +3,7 @@ const { DeletedMovies } = require("../data/deletedMovies");
 const { getList } = require('../functions/getList');
 const { getTotalLength } = require('../functions/getTotalLength');
 const { Tags } = require('../data/tags');
-const { deleteAndSave } = require('../functions/deleteAndSave');
+const { deleteData } = require('../functions/deleteData');
 const { Movies } = require('../data/movies');
 
 const router = Router();
@@ -28,7 +28,7 @@ router.post('/getList', async(req, res) => {
 })
 
 router.post('/restore', (req, res) => {
-  deleteAndSave(DeletedMovies, Movies, req.body, [], [Tags]);
+  deleteData(DeletedMovies, Movies, req.body, [], [Tags]);
 })
 
 router.post('/delete', async(req, res) => {
