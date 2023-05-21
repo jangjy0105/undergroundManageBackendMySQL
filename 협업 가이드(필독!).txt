@@ -9,3 +9,17 @@
   nodemon 설치 : npm install nodemon --save-dev
 
 실행하는법: npm run backend
+
+'undergroundManageBackend'는 데이터베이스에서 데이터를 가져오는 역할을 합니다.
+그러려면 데이터베이스와 연결을 해야하는데 현재는 mongodb를 데이터베이스로 사용하고 있습니다.
+
+데이터베이스와 연결하는 코드는 index.js의 10~12번 줄인
+mongoose.connect(uri.mognoURI)
+  .then(() => console.log('Connected!'))
+  .catch(err => console.log(err))
+
+입니다.
+이 때  uri.mognoURI는 다른 파일에서 선언한 변수이며, 
+보안을 위해 github에서 가져올 수 없도록 했습니다.
+
+모든 라이브러리를 설치 한뒤 실행을 할 때 저한테 개인적으로 문의해주시면 설명드리겠습니다.
