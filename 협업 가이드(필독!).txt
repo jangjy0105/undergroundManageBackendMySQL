@@ -1,0 +1,11 @@
+
+설치해야할 라이브러리(순서 상관 없음): 
+  bcrypt 설치 : npm install bcrypt --save
+  body-parser 설치 : npm install body-parser --save
+  cookie-parser 설치 : npm install cookie-parser --save
+  express 설치 : npm install express --save
+  jsonwebtoken 설치 : npm install jsonwebtoken --save
+  mongoose 설치 : npm install mongoose --save
+  nodemon 설치 : npm install nodemon --save-dev
+
+실행하는법: npm run backend

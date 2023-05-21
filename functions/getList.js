@@ -1,33 +1,32 @@
 const { getQuery } = require("./getQuery");
 
-exports.getList = async function(schema, req, populateOptions, dateFields, sortField) {
+exports.getList = async function(schema, req, populateOptions, dateFields, sortField, res) {
   
-  const skipNum = (req.page - 1) * req.listNum;
-  const limitNum = req.listNum;
-  const queryData = req.queryData;
+  const { page, listNum, queryData, searchOption, sortOption } = req;
+  const skipNum = (page - 1) * listNum;
+  const limitNum = listNum;
 
-  if(queryData && populateOptions[0]) {
-    for (let populateOption of populateOptions) {
-      if (queryData[populateOption.field][0]){
-        let regex = new RegExp(queryData[populateOption.field].join("|"), "i");
-        queryData[populateOption.field] = await populateOption.schema.find({ [populateOption.data]: regex });
-      }
-    }
+  if(queryData && populateOptions.length) {
+    const queries = populateOptions
+    .filter(opt => queryData[opt.field] && queryData[opt.field].length)
+    .map(async (opt) => {
+      const regex = new RegExp(queryData[opt.field].join("|"), "i");
+      queryData[opt.field] = await opt.schema.find({ [opt.data]: regex });
+    });
+    await Promise.all(queries);
   }
   
-  const sortQuery = req.sortOption==='최신순' ?  { "date": -1 }: req.sortOption==='오래된순' ? { "date": 1 } : { [sortField]: 1 };
+  const sortQuery = sortOption==='최신순' ?  { "date": -1 }: sortOption==='오래된순' ? { "date": 1 } : { [sortField]: 1 };
 
-   let data;
+  let data;
 
   if(queryData) {
-    const query = getQuery(queryData, req.searchOption, populateOptions.map(opt => opt.field), dateFields); 
-    data = await schema.find({$and: query}).sort(sortQuery).skip(skipNum).limit(limitNum).exec();
+    const query = getQuery(queryData, searchOption, populateOptions.map(opt => opt.field), dateFields); 
+    schema.find({$and: query}).sort(sortQuery).skip(skipNum).limit(limitNum).populate(populateOptions.map(opt => ({ path: opt.field }))).exec()
+    .then(data => res.json(data))
+    .catch(err => {throw err})
   }
-  else data = await schema.find().sort(sortQuery).skip(skipNum).limit(limitNum).exec();
-
-  for (let populateOption of populateOptions) {
-    await schema.populate(data, {path: populateOption.field});
-  }
-
-  return data;
+  else schema.find().sort(sortQuery).skip(skipNum).limit(limitNum).populate(populateOptions.map(opt => ({ path: opt.field }))).exec()
+    .then(data => res.json(data))
+    .catch(err => {throw err})
 }

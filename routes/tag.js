@@ -33,18 +33,15 @@ router.post('/getList', async(req, res) => {
   const populateOptions = [{schema: Movies, field: 'movies', data: 'title'}];
   const dateFields = ['date'];
 
-  const data = await getList(Tags, req.body, populateOptions, dateFields, 'tagName');
-  
-  res.send(data);
+  await getList(Tags, req.body, populateOptions, dateFields, 'tagName', res);
 })
 
 router.post('/getDetail', async(req, res) => {
 
-  const data = await Tags.findById(req.body.id);
+  Tags.findById(req.body.id)
+  .then(data => res.json(data))
+  .catch(err => {throw err});
 
-  // console.log(req.body.id);
-
-  res.json(data);
 })
 
 router.post('/delete', async(req, res) => {

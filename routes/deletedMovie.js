@@ -22,9 +22,8 @@ router.post('/getList', async(req, res) => {
   const populateOptions = [{schema: Tags, field: 'tags', data: 'tagName'}];
   const dateFields = ['date', 'deletedDate'];
 
-  const data = await getList(DeletedMovies, req.body, populateOptions, dateFields, 'title');
+  await getList(DeletedMovies, req.body, populateOptions, dateFields, 'title', res);
   
-  res.send(data);
 })
 
 router.post('/restore', (req, res) => {

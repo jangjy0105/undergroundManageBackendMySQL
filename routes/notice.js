@@ -19,9 +19,12 @@ router.post('/upload', (req, res) => {
 router.post('/getList', async(req, res) => {
 
   const dateFields = ['date'];
-  const data = await getList(Notices, req.body, [], dateFields, 'noticeName'); 
-  
-  res.send(data);
+  await getList(Notices, req.body, [], dateFields, 'noticeName', res); 
+
+})
+
+router.post('/delete', async(req, res) => {
+  await Notices.deleteMany({ _id: { $in: req.body } });
 })
 
 module.exports = router

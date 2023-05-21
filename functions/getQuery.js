@@ -1,6 +1,5 @@
 exports.getQuery = function(queryData, searchOption, populateFields, dateFields) {
   var query = [];
-  var cnt = 0;
   
   // console.log(queryData);
   if (searchOption === 'and') {
