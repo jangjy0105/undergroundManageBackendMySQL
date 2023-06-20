@@ -1,17 +1,21 @@
 const { Router, query } = require('express');
-const { Tags } = require('../data/tags');
-const { getTotalLength } = require('../functions/getTotalLength');
-const { getList } = require('../functions/getList');
-const { Movies } = require('../data/movies');
-const { upload } = require('../functions/upload');
-const { deleteData } = require('../functions/deleteData');
+const connection = require('../db');
+// const { Tags } = require('../data/tags');
+// const { getTotalLength } = require('../functions/getTotalLength');
+// const { getList } = require('../functions/getList');
+// const { Movies } = require('../data/movies');
+// const { upload } = require('../functions/upload');
+// const { deleteData } = require('../functions/deleteData');
 
 const router = Router();
 
 router.get('/getTag', async(req, res) => {
-  const data = await Tags.find();
-  
-  res.send(data);
+  console.log('getTag');
+  const selectQuery = "SELECT * FROM TAG"
+  connection.query(selectQuery, (error, results, fields) => {
+    if(error) console.log(error);
+    else res.send(results);
+  })
 })
 
 router.post('/getLength', (req, res) => {  
@@ -24,16 +28,25 @@ router.post('/getLength', (req, res) => {
 })
 
 router.post('/upload', (req, res) => {
-  const data = req.body;
-  upload(Tags, data);
+  const insertQuery = "INSERT INTO TAG (tagName) VALUES (?)";
+  connection.query(insertQuery, req.body.tagName, (error, results, fields) => {
+    if(error) console.log(error);
+    else console.log(req.body.tagName + ' 생성완료');
+  })
 })
 
 router.post('/getList', async(req, res) => {
 
-  const populateOptions = [{schema: Movies, field: 'movies', data: 'title'}];
-  const dateFields = ['date'];
+  const selectQuery = "SELECT * FROM tag"
+  connection.query(selectQuery, (error, results, fields) => {
+    if(error) console.log(error);
+    else res.send(results);
+  })
 
-  await getList(Tags, req.body, populateOptions, dateFields, 'tagName', res);
+  // const populateOptions = [{schema: Movies, field: 'movies', data: 'title'}];
+  // const dateFields = ['date'];
+
+  // await getList(Tags, req.body, populateOptions, dateFields, 'tagName', res);
 })
 
 router.post('/getDetail', async(req, res) => {

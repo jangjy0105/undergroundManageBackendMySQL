@@ -20,4 +20,10 @@ router.use('/admin', admin)
 const deletedMovie = require('./deletedMovie');
 router.use('/deletedMovie', deletedMovie)
 
+const filmPeople = require('./filmPeople');
+router.use('/filmPeople',filmPeople)
+
+const genre = require('./genre');
+router.use('/genre', genre)
+
 module.exports = router;

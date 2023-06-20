@@ -1,10 +1,10 @@
 const { Router, query } = require('express');
-const { DeletedMovies } = require("../data/deletedMovies");
-const { getList } = require('../functions/getList');
-const { getTotalLength } = require('../functions/getTotalLength');
-const { Tags } = require('../data/tags');
-const { deleteData } = require('../functions/deleteData');
-const { Movies } = require('../data/movies');
+// const { DeletedMovies } = require("../data/deletedMovies");
+// const { getList } = require('../functions/getList');
+// const { getTotalLength } = require('../functions/getTotalLength');
+// const { Tags } = require('../data/tags');
+// const { deleteData } = require('../functions/deleteData');
+// const { Movies } = require('../data/movies');
 
 const router = Router();
 

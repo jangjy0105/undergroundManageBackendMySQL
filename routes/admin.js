@@ -1,11 +1,11 @@
 const { Router } = require('express');
-const { Admins } = require('../data/admins');
-const cookieParser = require('cookie-parser');
-const jwt = require('jsonwebtoken');
+// const { Admins } = require('../data/admins');
+// const cookieParser = require('cookie-parser');
+// const jwt = require('jsonwebtoken');
 
 const router = Router();
 
-router.use(cookieParser());
+// router.use(cookieParser());
 
 router.post('/signup', (req, res) => {
   const data = req.body;
